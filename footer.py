@@ -1,18 +1,32 @@
 from reportlab.platypus import Table
 from reportlab.lib import colors
+import datetime
 
-def genFooterTable(width, height):
-    text = 'ABCDEFGHIJKLMNOP'
-    color = colors.HexColor('#003363')
-    res = Table([[text, 'another column']], width, height)
+current_datetime = datetime.datetime.now()
+
+def genFooterTable(width, height, index, n, exported_by='Superadmin swift-dynamics', exported_at=f'{current_datetime}'):
+    width_list = [
+        width * 20 / 100,
+        width * 60 / 100,
+        width * 20 / 100,
+    ]
+    text = f'PAGE {index} of {n}'
+    res = Table([
+            [f'Exported by : {exported_by}\nExported at : {exported_at}', text , 'Powered by Sitearound']
+        ],
+        width_list,
+        height
+    )
     res.setStyle([
-        ('GRID', (0, 0), (-1, -1), 1, 'red'),
-
+        # ('GRID', (0, 0), (-1, -1), 1, 'red'),
+        ('FONTNAME', (0,0), (-1, -1), 'TH'),
         ('LEFTPADDING', (0, 0), (-1, -1), 0),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
 
-        ('BACKGROUND', (0, 0), (-1, -1), color),
-        ('TEXTCOLOR', (0, 0), (-1, -1), 'white'),
+        ('LEFTPADDING', (0, 0), (0, 0), (width_list[0] * 50) / 100),
+
+        ('BACKGROUND', (0, 0), (-1, -1), 'white'),
+        ('TEXTCOLOR', (0, 0), (-1, -1), 'black'),
 
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'), 
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
